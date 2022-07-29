@@ -5,7 +5,7 @@ const dotenv = require ("dotenv")
 const userRoute = require("./routes/user")
 const registerUser = require("./auth/register")
 const loginUser = require("./auth/login")
-
+const products = require("./routes/products")
 
 dotenv.config();
 app.use(express.json())
@@ -19,7 +19,7 @@ mongoose
 app.use("/registro" , registerUser)
 app.use("/login" , loginUser)
 app.use("/login", userRoute )    
-
+app.use("/api/products", products)
 app.listen(process.env.PORT || 5000, () => {
     console.log("Servidor ok")
 })
