@@ -1,5 +1,4 @@
 const Product = require("../models/Product");
-const {authorization} = require("../middlewares/authorization")
 const router = require ("express").Router();
 const CryptoJS = require ("crypto-js");
 const { isAdmin } = require("../handlers/isAdmin");
@@ -41,6 +40,17 @@ router.get("/", async (req, res) => {
      }
 })
 
+
+//BUSCAR PRODUCTO POR ID, SIENDO ADMIN...
+
+router.get("/:id", verifyToken, isAdmin ,async (req, res) => {
+     try {
+          const products = await Product.findById(req.params.id)
+          res.status(200).json(products)
+     } catch (error) {
+          res.status(500).json(error)
+     }
+})
 
 // BORRAR PRODUCTO SOLO SI ES ADMIN 
 
