@@ -1,12 +1,13 @@
 const mongoose = require ("mongoose")
-
+const ObjectId = require('mongodb').ObjectId;
 const CartSchema = new mongoose.Schema(
     {
-        id:{type: String, required:true, unique:true},
+        idCart:{type: ObjectId, ref:'User'  },
         products: [
             {
                 productId:{
-                    type:String
+                    type:ObjectId,
+                    ref:'Product'
                 },
                 quantity:{
                     type: Number,
