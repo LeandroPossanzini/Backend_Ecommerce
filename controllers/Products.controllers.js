@@ -1,10 +1,15 @@
 const Product = require("../models/Product");
-
+const fs = require("fs")
 
 // CREAR PRODUCTO
 async function createProduct(req,res){
     const newProduct = new Product(req.body)
-
+    try {
+        await fs.promises.access(`./uploads/${newProduct.image}`)
+        newProduct.image = `./../uploads/${newProduct.image}`
+    } catch (error) {
+        newProduct.image = `./../uploads/producto.png`
+    }
     try {
         const saveProducts = await newProduct.save()
         res.status(200).json(saveProducts)
