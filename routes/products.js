@@ -5,6 +5,8 @@ const { isAdmin } = require("../handlers/isAdmin");
 const { verifyToken } = require("../middlewares/verifyToken");
 const {upload} = require("./../handlers/upload")
 const {uploadFile} = require("./../handlers/upload")
+const fs = require('fs')
+
 
 // CARGAR LA FOTO EN MULTER
 router.post("/upload", verifyToken ,upload, uploadFile)
@@ -13,14 +15,15 @@ router.post("/upload", verifyToken ,upload, uploadFile)
 // CREAR PRODUCTO SOLO SI ES ADMIN Y ESTA LOGEADO
 router.post("/", verifyToken ,isAdmin, async (req,res) =>{
     const newProduct = new Product(req.body)
-
+    const ruta = `./../uploads/${newProduct.image}`
+    
     try {
         const saveProducts = await newProduct.save()
         res.status(200).json(saveProducts)
     } catch (error) {
         res.status(401).json("ERROR_EN_LA_CARGA_DEL_PRODUCTO")
     }
-})
+});
 
 // ACTUALIZAR PRODUCTO SOLO SI ES ADMIN Y ESTA LOGUEADO
 router.put("/:id", verifyToken ,isAdmin , async (req, res) =>{
