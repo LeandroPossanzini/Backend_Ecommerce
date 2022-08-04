@@ -3,10 +3,15 @@ const router = require ("express").Router();
 const CryptoJS = require ("crypto-js");
 const { isAdmin } = require("../handlers/isAdmin");
 const { verifyToken } = require("../middlewares/verifyToken");
+const {upload} = require("./../handlers/upload")
+const {uploadFile} = require("./../handlers/upload")
+
+// CARGAR LA FOTO EN MULTER
+router.post("/upload", verifyToken ,upload, uploadFile)
 
 
 // CREAR PRODUCTO SOLO SI ES ADMIN Y ESTA LOGEADO
-router.post("/", verifyToken ,isAdmin ,async (req,res) =>{
+router.post("/", verifyToken ,isAdmin, async (req,res) =>{
     const newProduct = new Product(req.body)
 
     try {
