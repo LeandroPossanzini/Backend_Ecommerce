@@ -13,6 +13,7 @@ async function createOrder(req, res){
   const cart = await Cart.findOne({_id: cartID}).populate(populate)
   let email = "";
   User.findOne({_id:cart.idUser}).then(u => email = u.email).catch(e => console.log(e))
+
   console.log(email)
   let total=0 
   cart.products.forEach(p=> total = total +( p.quantity* p.productId.price))
@@ -24,7 +25,7 @@ const order = {
     }
     Order.create(order)
     .then(o=> {
-      sendEmail.sendEmail({email, o})
+      sendEmail.sendEmail(email, o)
       res.json({msg:"Orden creada correctamente", order:o})})
     .catch(e=>res.json({msg: e.message}))
 

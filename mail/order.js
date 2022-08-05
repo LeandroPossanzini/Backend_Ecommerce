@@ -18,9 +18,9 @@ const sendEmail = async (email, order) => {
         from: '"Mail de Prueba"<mailprueba@gmail.com>',
         to: `${email}`,
         subject: `Gracias por realizar la siguiente compra`,
-        html:`<p>${order.products}</p>
-            <p>${order.amount}</p>`
+        html:`<p>${order.products}</p><p>${order.amount}</p>`
     })
+    
     return 
 }
 
