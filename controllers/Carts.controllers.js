@@ -7,7 +7,7 @@ function createCart(req, res){
     const newCart = req.body;
     const user = req.user.id
     Cart.create({
-        idCart:user,
+        idUser:user,
         products:newCart
       })
       .then(cart=> res.status(201).json({msg: "se creo exitosamente", cart: cart}))
@@ -19,7 +19,7 @@ async function addProductsToCart (req, res){
     const newProduct = req.body;
     const idCart = req.params.id;
     const carrito= await Cart.find({idCart:idCart}).exec()
-    Cart.update({idCart :idCart }, {$set:{products: [...carrito, newProduct]}})
+    Cart.update({idCart :idCart }, {$set:{products: [...carrito[0].products, newProduct]}})
       .then(_cart=> res.json({msg:"Se Agrego el producto al carrito"}))
       .catch(err=> res.json({msg: err.message}))
   }
