@@ -12,15 +12,16 @@ const createTrasporte = () => {
     return transport
 }
 
-const sendEmail = async (user) => {
+const sendEmail = async (email, order) => {
     const transporter = createTrasporte()
     const info = await transporter.sendMail({
         from: '"Mail de Prueba"<mailprueba@gmail.com>',
-        to: `${user.email}`,
-        subject: `Gracias por registrarte ${user.name}`,
-        html:" HOLaaaaaaaaaaaaaaaaaaa"
+        to: `${email}`,
+        subject: `Gracias por realizar la siguiente compra`,
+        html:`<p>${order.products}</p>
+            <p>${order.amount}</p>`
     })
     return 
 }
 
-exports.sendEmail = (user) => sendEmail(user)
+exports.sendEmail = (email, order) => sendEmail(email, order)

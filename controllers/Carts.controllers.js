@@ -5,7 +5,9 @@ const Cart = require("./../models/Cart");
 
 function createCart(req, res){
     const newCart = req.body;
+    console.log(newCart)
     const user = req.user.id
+    console.log(user)
     Cart.create({
         idUser:user,
         products:newCart
