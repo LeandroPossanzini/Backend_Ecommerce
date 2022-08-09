@@ -32,14 +32,29 @@ function deleteCart(req, res) {
     .catch(e=> res.status(500).json({msg:e.message})) ;
   }
 
-
-  //OBTENER EL CARRITO POR ID DE CARRITO DEL USER
-  function getCartByID(req, res) {
-    const id = req.params.cartId
-    Cart.find({ idCart:id })
-      .then(cart => res.status(200).json(cart))
-      .catch(e=>res.status(500).json({msg:e.message}))
+  
+  //OBTENER EL CARRITO POR ID DE CARRITO con productos
+function getCartByID(req, res) {
+  const populate = { 
+      path: 'products.productId'
   }
+  const id = req.params.cartId
+  Cart.find({ idCart:id }).populate(populate)
+  .then(cart => res.status(200).json(cart))
+  .catch(e=>res.status(500).json({msg:e.message}))
+}
+
+//se elimina producto con id de producto
+async function deleteProductByid(req, res){
+  const id = req.params.id
+  const product = req.body.productId
+  let cart = await Cart.findOne({_id:id})
+  cart = cart.products.filter(p=> p.productId != product)
+  console.log(cart)
+  Cart.update({_id:id }, {$set:{products: cart}})
+  .then(_c => res.status(200).json({msg:"Se elimino producto correctamente"}))
+  .catch(e=>res.json({msg:e.message}))
+}
 //OBTENER TODOS LOS CARRITOS
 function getAllCarts(_req, res) {
     Cart.find()
@@ -51,5 +66,6 @@ module.exports = {
     addProductsToCart,
     deleteCart,
     getCartByID,
-    getAllCarts
+    getAllCarts, 
+    deleteProductByid
 }
