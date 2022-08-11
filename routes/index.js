@@ -4,6 +4,7 @@ const routerProduct = require('./Products.routes')
 const routerUser = require('./User.routes')
 const routerOrder = require('./Order.routes')
 const getInfo = require('../controllers/Info.controller')
+
 router
 .get('/info', getInfo)
 .use('/api/shoppingcartproducts', routerCart)

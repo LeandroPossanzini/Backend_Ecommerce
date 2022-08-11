@@ -9,6 +9,7 @@ const Message = require("./models/Message")
 
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
+const routerImages = require("./routes/images.routes")
 
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
@@ -46,6 +47,7 @@ app.use(express.static('public'))
 app.use("/registro" , registerUser)
 app.use("/login" , loginUser)
 app.use("/", router)
+app.use("/api/images", routerImages)
 
 httpServer.listen(process.env.PORT || 5000, () => {
     console.log("Servidor ok")
