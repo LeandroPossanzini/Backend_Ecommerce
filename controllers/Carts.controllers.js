@@ -3,14 +3,14 @@ const Cart = require("./../models/Cart");
 
 //CREAR CARRITO 
 
+// implementar una funcion que si el carrito esta creado nos muestre el id y si no lo cree.
 function createCart(req, res){
-    const newCart = req.body;
-    console.log(newCart)
+    // const newCart = req.body;
+    // console.log(newCart)
     const user = req.user.id
-    console.log(user)
     Cart.create({
         idUser:user,
-        products:newCart
+        products:[]
       })
       .then(cart=> res.status(201).json({msg: "se creo exitosamente", cart: cart}))
       .catch(err=> res.json(err.message))
