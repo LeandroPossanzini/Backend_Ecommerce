@@ -17,14 +17,24 @@ function createCart(req, res){
   }
 //AGREGAR PRODUCTOS A CARRITO 
 
-async function addProductsToCart (req, res){
-    const newProduct = req.body;
-    const idCart = req.params.id;
-    const carrito= await Cart.find({idCart:idCart}).exec()
-    Cart.update({idCart :idCart }, {$set:{products: [...carrito[0].products, newProduct]}})
-      .then(_cart=> res.json({msg:"Se Agrego el producto al carrito"}))
-      .catch(err=> res.json({msg: err.message}))
+async function addProductsToCart(req, res){
+  let newProduct = req.body.productId;
+  const user = req.user.id
+  let carrito= await CartModel.findOne({userID:user}).exec()
+  if(!carrito.products.find(e=> e.productId == newProduct)){
+  newProduct= {productId: newProduct} 
+  carrito.products.push(newProduct)
+  }else{
+ 
+  carrito.products.forEach(element => {
+      if(element.productId == newProduct) element.quantity= element.quantity +1
+ })
   }
+  carrito.save()
+  .then(_cart=> res.json({msg:"Se Agrego el producto al carrito"}))
+  .catch(err=> res.json({msg: err.message}))
+  
+}
 //BORRAR CARRITO POR ID 
 function deleteCart(req, res) {
     Cart.findByIdAndDelete({idCart:req.params.id})
