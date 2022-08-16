@@ -2,21 +2,21 @@ const Order = require("../models/Order");
 const Cart = require('../models/Cart')
 const sendEmail = require("./../mail/order")
 const User = require("./../models/User")
+const {emptyCart} = require ("./Carts.controllers")
 //CREAR ORDER
 
 async function createOrder(req, res){
-    const populate = { 
-        path: 'products.productId'
-    }
+  const populate = { 
+    path: 'products.productId'
+}
   const cartID = req.params.cartID
   const address = req.body.address
   const cart = await Cart.findOne({_id: cartID}).populate(populate)
-  let email = "";
-  User.findOne({_id:cart.idUser}).then(u => email = u.email).catch(e => console.log(e))
-
-  console.log(email)
-  let total=0 
-  cart.products.forEach(p=> total = total +( p.quantity* p.productId.price))
+  console.log(cart)
+   let email = "" ;
+   await User.findOne({_id:cart.idUser}).then(u => email = u.email).catch(e => console.log(e))
+  let total= 0 
+  cart.products.forEach(p=> total = total +( (p.quantity) * (p.productId.price)))
 const order = {
         userId: cart.idUser,
         products: cart.products,
@@ -26,7 +26,9 @@ const order = {
     Order.create(order)
     .then(o=> {
       sendEmail.sendEmail(email, o)
+      sendAdminEmail.sendEmail(o)
       res.json({msg:"Orden creada correctamente", order:o})})
+      .then(emptyCart(cartID))
     .catch(e=>res.json({msg: e.message}))
 
 }

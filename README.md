@@ -1,5 +1,13 @@
 # Proyecto Final Ecommerce_Coder
 
+### Info 
+.post(/info)
+Esta ruta me trae un JSON con toda la informacion del servidor
+
+### Images SOLO SI ES ADMIN
+.post(/api/images)
+Con esta ruta enviamos por body, {key = miFoto , Value= select file}. Las fotos se descargaran en la carpeta upload. 
+
 
 ### Register / Login
 
@@ -33,6 +41,8 @@ El producto debe tener estas caracteristicas:
 *descripcion
 *price
 *image
+En el campo imagen cargar el nombre de la foto que se subio anteriormente. 
+
 
 .put(/api/products/:id)
 Con esta ruta podremos actualizar un producto ya existente pasando por parametro el Id del producto que vamos a modificar
@@ -49,16 +59,24 @@ Esta ruta borra un producto por su id.
 ### Api Cart
 
 .post(/api/shoppingcartproducts/)
-Con esta ruta creamos el carrito mientras estemos logeados
-
-.put(/api/shoppingcartproducts/:id)
-Insertamos productos al carrito enviando el id del carrito creado y el producto
+Con esta ruta creamos un carrito al usuario y le cargamos un producto. 
 
 .detele(/api/shoppingcartproducts/:id)
-Borra el carrito solo si es adm
+Con esta ruta se pasa por :id = el id del carrito y por body se pasa el producto a eliminar.
 
-.get(/api/shoppingcartproducts/find/:id)
+.get(/api/shoppingcartproducts/:id)
 Esta ruta encuentra un carrito segun el ID 
+
+.get(/api/shoppingcartproducts/) SOLO SI ES ADMIN
+Esta ruta encuentra todos los carritos de la base de datos.
+
+### Api Orders
+
+.post(/api/orders/:id)
+Con esta ruta cerramos la order y vaciamos el carrito
+
+.get(/api/orders)
+Con esta ruta obtenemos la ultima orden del usuario. 
 
 
 

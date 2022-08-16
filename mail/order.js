@@ -20,8 +20,20 @@ const sendEmail = async (email, order) => {
         subject: `Gracias por realizar la siguiente compra`,
         html:`<p>${order.products}</p><p>${order.amount}</p>`
     })
-    
+    return 
+}
+
+const sendAdminEmail = async (order) => {
+    const transporter = createTrasporte()
+    const info = await transporter.sendMail({
+        from: '"Mail de Prueba"<mailprueba@gmail.com>',
+        to: `"Mail de Prueba"<mailAdminPrueba@gmail.com>`,
+        subject: `Se realizo la siguiente compra`,
+        html:`<p>${order.products}</p><p>${order.amount}</p>`
+    })
     return 
 }
 
 exports.sendEmail = (email, order) => sendEmail(email, order)
+
+exports.sendAdminEmail = (order) => sendEmail(order)

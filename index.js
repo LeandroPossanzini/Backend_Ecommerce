@@ -44,11 +44,13 @@ io.on('connection', socket => {
 
 
 app.use(express.static('public'))     
-app.use("/registro" , registerUser)
-app.use("/login" , loginUser)
+app.use("/api/users" , registerUser)
+app.use("/login", loginUser )
 app.use("/", router)
 app.use("/api/images", routerImages)
 
-httpServer.listen(process.env.PORT || 5000, () => {
-    console.log("Servidor ok")
+const puertoServidor = process.env.PORT || process.env.PORT_DEV
+
+httpServer.listen(puertoServidor, () => {
+    console.log(`Servidor corriendo en ${puertoServidor}`)
 })
